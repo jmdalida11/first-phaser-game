@@ -1,0 +1,69 @@
+<html>
+<head>
+</head>
+<body>
+<script src="phaser.min.js"></script>
+<script>
+	
+	var game;
+	var GAME_WIDTH = 800;
+	var GAME_HEIGHT = 600;
+	
+	window.onload = function(){
+		
+		game = new Phaser.Game(GAME_WIDTH, GAME_HEIGHT, Phaser.CANVAS);
+		
+		game.state.add("PlayState", playState);
+		game.state.start("PlayState");
+	
+	}
+	
+	var playState = function (){
+		
+		this.preload = function(){
+			 
+			game.load.image('character', 'character.png');
+			game.load.image('try', 'https://cdn.dribbble.com/users/375867/screenshots/2790168/golden_forest_tree_2d_game_background_dribbble.jpg');
+		}
+		
+		this.create = function(){
+			game.world.setBounds(0,0,1200, 600);
+			game.add.tileSprite(0, 0,1200,600, 'try');
+			this.character = game.add.sprite(100 , 480, 'character');
+			this.character.scale.setTo(0.5, 0.5);
+			game.stage.backgroundColor = '#2d2d2d';
+			game.physics.enable(this.character, Phaser.Physics.ARCADE);
+			this.character.anchor.x = 0.5;
+			this.character.anchor.y = 0.5;
+			//this.character.alpha = 0.5;
+			game.camera.follow(this.character);
+			this.lookRight = true;
+		}
+		
+		this.update = function(){
+			
+			if(game.input.keyboard.isDown(Phaser.Keyboard.D)){
+				this.character.x += 5;
+				if(!this.lookRight){
+					this.character.scale.x = this.character.scale.x * -1;
+					this.lookRight = true;
+				}
+			}else if(game.input.keyboard.isDown(Phaser.Keyboard.A)){
+				this.character.x -= 5;
+				if(this.lookRight){
+					this.character.scale.x = this.character.scale.x * -1;
+					this.lookRight = false;
+				}
+			}
+			
+		
+			
+			
+		}
+	
+	}
+	
+	
+</script>
+</body>
+</html>
